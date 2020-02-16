@@ -1,29 +1,32 @@
-
   $(document).ready(function () {
 // $('cell').each(function(el){
 //   if(el == ''){
+    var player1;
+    var player2;
     $('.hide').hide()
-    $('#start-game').click(function (e) { 
+   $('#start-game').click(function (e) { 
       e.preventDefault();
       $('.hide').show()
       startGame();
     });
- startGame = () => {
-    let player2 = '';
-    let player1 = prompt('Please choose X or O').toUpperCase();
-    if(player1 === 'X'){
-      player2 = 'O'
-    } else {
-      player2 = 'X'
-    };
-  }
+
+
+    startGame = function() {
+     player1 = prompt('Please choose X or O').toUpperCase();
+      if(player1 === 'X'){
+        player2 = 'O'
+      } else {
+        player2 = 'X'
+      };
+    }
+
     var randomNo = function() {
       return Math.floor((Math.random() * 8) + 1); //R&&om no generat|| from 1-8.
     };
 
-    const board = ['','','','','','','','',''];
+    var board = ['','','','','','','','',''];
 
-    const computerTurn = function(){
+    var computerTurn = function(){
       var space = randomNo();
       while(board[space] !== '') {
           space = randomNo();
@@ -34,22 +37,25 @@
           board[space] = player2;
     }
   
-   playGame = () => {
-    $('.cell').each(function(el){
-      $('#' + el).click(function(){
-        if(!board[el]){
-          $('#' + el).append(player1);
-          board[el] = player1;
-          console.log("player1 is " + player1);
-          console.log("player2 is " + player2);
-          if(board.includes('')){
-            computerTurn();
-          }          
-       }
-          console.log(board);
-          })
-      })
-    }
+ 
+
+  
+      $('.cell').each(function(el){
+        $('#' + el).click(function(){
+            console.log("click deteeted");
+          if(!board[el]){
+            $('#' + el).append(player1);
+            board[el] = player1;
+            console.log("player1 is " + player1);
+            console.log("player2 is " + player2);
+            if(board.includes('')){
+              computerTurn();
+            }          
+         }
+            console.log(board);
+            })
+        })
+      
       
       const checkWin = function(){
         ((board[7] == mark && board[8] == mark && board[9] == mark) || // across the top
@@ -61,9 +67,28 @@
         (board[7] == mark && board[5] == mark && board[3] == mark) || // diagonal
         (board[9] == mark && board[5] == mark && board[1] == mark)) // diagonal     
       }
+
     });
 
 
+
+
+    // playGame = () => {
+    //   $('.cell').each(function(el){
+    //     $('#' + el).click(function(){
+    //       if(!board[el]){
+    //         $('#' + el).append(player1);
+    //         board[el] = player1;
+    //         console.log("player1 is " + player1);
+    //         console.log("player2 is " + player2);
+    //         if(board.includes('')){
+    //           computerTurn();
+    //         }          
+    //      }
+    //         console.log(board);
+    //         })
+    //     })
+    //   }
 
       // old class syntax
       // class Player {
