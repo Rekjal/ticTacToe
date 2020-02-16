@@ -1,10 +1,17 @@
-  $(document).ready(function () {
+ $(document).ready(function () {
+    $('.game-restart').click(function (e) { 
+      document.location.reload(true);
+     });
 // $('cell').each(function(el){
 //   if(el == ''){
     var player1;
     var player2;
+    var gameOver = false;
+  
     $('.hide').hide()
+    $('.game-restart').hide()
    $('#start-game').click(function (e) { 
+     $('#start-game').hide();
       e.preventDefault();
       $('.hide').show()
       startGame();
@@ -19,6 +26,9 @@
         player2 = 'X'
       };
     }
+
+  
+    
 
     var randomNo = function() {
       return Math.floor((Math.random() * 8) + 1); //R&&om no generat|| from 1-8.
@@ -35,38 +45,72 @@
             console.log("space is " + space);
           $('#' +  space).append(player2);
           board[space] = player2;
+          checkPlayer2Win();
     }
   
- 
+    const checkPlayer1Win = function(){
+      if(
+      ((board[6] == player1 && board[7] == player1 && board[8] == player1) || // bottom row
+      (board[3] == player1 && board[4] == player1 && board[5] == player1) || // across the middle
+      (board[0] == player1 && board[1] == player1 && board[2] == player1) || // across the bottom
+      (board[0] == player1 && board[3] == player1 && board[6] == player1) || // down the middle
+      (board[1] == player1 && board[4] == player1 && board[7] == player1) || // down the middle
+      (board[2] == player1 && board[5] == player1 && board[8] == player1) || // down the right side
+      (board[0] == player1 && board[4] == player1 && board[8] == player1) || // diagonal
+      (board[6] == player1 && board[4] == player1 && board[2] == player1) ) ) // bottom row
+      
+    {
+      console.log('Player1 You have won!');
+      $('.game-restart').show();
+       gameOver = true;
+    }
+    } 
 
-  
+    const checkPlayer2Win = function(){
+      if(
+        ((board[6] == player2 && board[7] == player2 && board[8] == player2) || // bottom row
+        (board[3] == player2 && board[4] == player2 && board[5] == player2) || // across the middle
+        (board[0] == player2 && board[1] == player2 && board[2] == player2) || // across the bottom
+        (board[0] == player2 && board[3] == player2 && board[6] == player2) || // down the middle
+        (board[1] == player2 && board[4] == player2 && board[7] == player2) || // down the middle
+        (board[2] == player2 && board[5] == player2 && board[8] == player2) || // down the right side
+        (board[0] == player2 && board[4] == player2 && board[8] == player2) || // diagonal
+        (board[6] == player2 && board[4] == player2 && board[2] == player2)) ) 
+    {
+      console.log('Player 2 You have won!');
+      $('.game-restart').show();
+       gameOver = true;
+    }
+    } 
+
       $('.cell').each(function(el){
         $('#' + el).click(function(){
             console.log("click deteeted");
-          if(!board[el]){
+          if(board[el] == ''){
             $('#' + el).append(player1);
             board[el] = player1;
             console.log("player1 is " + player1);
             console.log("player2 is " + player2);
+            checkPlayer1Win();
+            // checkPlayer2Win();
             if(board.includes('')){
-              computerTurn();
-            }          
+              if(gameOver == false){
+                setTimeout(function(){
+                  computerTurn();
+
+                }, 800);
+              }
+            }       
          }
             console.log(board);
             })
         })
       
       
-      const checkWin = function(){
-        ((board[7] == mark && board[8] == mark && board[9] == mark) || // across the top
-        (board[4] == mark && board[5] == mark && board[6] == mark) || // across the middle
-        (board[1] == mark && board[2] == mark && board[3] == mark) || // across the bottom
-        (board[7] == mark && board[4] == mark && board[1] == mark) || // down the middle
-        (board[8] == mark && board[5] == mark && board[2] == mark) || // down the middle
-        (board[9] == mark && board[6] == mark && board[3] == mark) || // down the right side
-        (board[7] == mark && board[5] == mark && board[3] == mark) || // diagonal
-        (board[9] == mark && board[5] == mark && board[1] == mark)) // diagonal     
-      }
+      
+
+        
+     
 
     });
 
@@ -222,3 +266,4 @@
 
 
 
+ 
